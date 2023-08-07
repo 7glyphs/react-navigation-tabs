@@ -25,7 +25,6 @@ export default function withDimensions<Props extends InjectedProps>(
       super(props);
 
       const { width, height } = Dimensions.get('window');
-      this.eventSubscription = null
       this.state = {
         dimensions: { width, height },
         isLandscape: isOrientationLandscape({ width, height }),
@@ -33,11 +32,11 @@ export default function withDimensions<Props extends InjectedProps>(
     }
 
     componentDidMount() {
-      this.eventSubscription = Dimensions.addEventListener('change', this.handleOrientationChange);
+      Dimensions.addEventListener('change', this.handleOrientationChange);
     }
 
     componentWillUnmount() {
-      this.eventSubscription.remove()
+      Dimensions.removeEventListener('change', this.handleOrientationChange);
     }
 
     handleOrientationChange = ({ window }: { window: ScaledSize }) => {
